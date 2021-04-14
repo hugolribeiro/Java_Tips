@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,7 +11,7 @@ import java.util.List;
 // Author: Hugo Leça Ribeiro
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        String path = "/home/hleca/IdeaProjects/ApresentacaoCSVFatec/CsvAnimes/src/anime.csv";
+        String path = "anime.csv";
         List<Anime> animeList = new ArrayList<Anime>();
 
         try (BufferedReader buffReader = new BufferedReader(new FileReader(path))) {
@@ -38,7 +40,17 @@ public class Main {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error found " + e);
+        }
+        String fileDestinyStr = "top_animes.csv";
+        for (Anime anime: animeList){
+            try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileDestinyStr, true))){
+                bw.append(String.valueOf("Name: ")).append(anime.getName()).append(String.valueOf(",      Score: ")).append(anime.getScore());
+                bw.newLine();
+            }
+            catch(IOException e){
+                System.out.println("Erro ao gravar o arquivo: " + e.getMessage());
+            }
         }
     }
 }
